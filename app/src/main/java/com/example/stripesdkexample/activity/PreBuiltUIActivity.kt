@@ -60,7 +60,9 @@ class PreBuiltUIActivity : AppCompatActivity() {
 
         // finally change the color
         // finally change the color
-        window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimaryDark)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimaryDark)
+        }
 
         PaymentConfiguration.init(
             applicationContext,
@@ -116,7 +118,7 @@ class PreBuiltUIActivity : AppCompatActivity() {
                         .setPostalCode("94107")
                         .setCountry("US")
                         .build(),
-                    "Rajkumar Rajan",
+                    "FARHAN FAHIM",
                     "9876543210"
                 )
             )
@@ -306,7 +308,7 @@ class PreBuiltUIActivity : AppCompatActivity() {
             paymentParams["currency"] = "usd"
             //Here I'm directly hardcoded the Stripe Customer key.
             //You can find the clear flow of creating the Customer in Server side code in https://stripe.com/docs/api/customers/create?lang=java
-            paymentParams["customer"] = "cus_Gg3ukqg4YdLift"
+            paymentParams["customer"] = "CUSTOMER_ID"
             paymentParams["payment_method_types"] = paymentMethodTypes
 
             return@async PaymentIntent.create(paymentParams)

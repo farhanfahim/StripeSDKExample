@@ -8,10 +8,7 @@ import com.stripe.android.EphemeralKeyProvider
 import com.stripe.android.EphemeralKeyUpdateListener
 import com.stripe.model.EphemeralKey
 import com.stripe.net.RequestOptions
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.*
 
 
@@ -30,7 +27,7 @@ class EphemeralKeyProvider(val context: Context) : EphemeralKeyProvider {
 
     private suspend fun ephemeralKeyProvider(apiVersion: String, context: Context): String {
         return GlobalScope.async(Dispatchers.IO) {
-            com.stripe.Stripe.apiKey = context.resources.getString(R.string.stripe_secret_key)
+            com.stripe.Stripe.apiKey = "YOUR_PUBLISHABLE KEY"
             val requestOptions: RequestOptions = RequestOptions.RequestOptionsBuilder()
                 .setStripeVersionOverride(apiVersion)
                 .build()
@@ -38,7 +35,7 @@ class EphemeralKeyProvider(val context: Context) : EphemeralKeyProvider {
                 HashMap()
             //Here I'm directly hardcoded the Stripe Customer key.
             //You can find the clear flow of creating the Customer in Server side code in https://stripe.com/docs/api/customers/create?lang=java
-            options["customer"] = "cus_Gg3ukqg4YdLift"
+            options["customer"] = "CUSTOMER_ID"
             val key: EphemeralKey = EphemeralKey.create(options, requestOptions)
             return@async key.rawJson.toString()
         }.await()

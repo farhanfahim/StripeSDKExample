@@ -24,10 +24,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MakePaymentActivity"
-            android:theme="@style/noActionBar"
-            android:label="@string/make_payment"/>
-        <activity
             android:name=".activity.PreBuiltUIActivity"
             android:theme="@style/noActionBar"
             android:label="@string/pre_built_ui"/>

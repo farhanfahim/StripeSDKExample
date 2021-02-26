@@ -12,10 +12,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        buttonMakePayment.setOnClickListener {
-            startActivity(Intent(this@MainActivity, MakePaymentActivity::class.java))
-            overridePendingTransition(R.anim.right_to_left, 0)
-        }
 
         buttonStripeCardPayment.setOnClickListener {
             startActivity(Intent(this@MainActivity, PreBuiltUIActivity::class.java))
