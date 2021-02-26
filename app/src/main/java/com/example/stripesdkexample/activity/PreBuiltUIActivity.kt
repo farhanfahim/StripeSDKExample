@@ -31,7 +31,7 @@ class PreBuiltUIActivity : AppCompatActivity() {
     private lateinit var paymentSession: PaymentSession
     private lateinit var stripe: Stripe
     private lateinit var supportClass: SupportClass
-
+    private lateinit var customerId:String
     public override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         paymentSession.savePaymentSessionInstanceState(outState)
@@ -41,6 +41,8 @@ class PreBuiltUIActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pre_built_u_i)
 
+        var intentData = intent.getStringExtra("customerId")
+        customerId = intentData!!
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
@@ -75,7 +77,7 @@ class PreBuiltUIActivity : AppCompatActivity() {
             //Which is need to process in Server side.
             //For clear understanding, I'm handling it in Client side
             //Now refer the EphemeralKeyProvider.class
-            CustomerSession.initCustomerSession(this, EphemeralKeyProvider(this))
+            CustomerSession.initCustomerSession(this, EphemeralKeyProvider(this,customerId))
 
             paymentSession = PaymentSession(
                 this,
@@ -118,7 +120,7 @@ class PreBuiltUIActivity : AppCompatActivity() {
                         .setPostalCode("94107")
                         .setCountry("US")
                         .build(),
-                    "FARHAN FAHIM",
+                    "farhan fahim",
                     "9876543210"
                 )
             )
@@ -222,8 +224,8 @@ class PreBuiltUIActivity : AppCompatActivity() {
                     if (paymentMethod != null) {
                         //Once User select the card in Payment Method screen, we'll receive the paymentMethod here
                         Log.e("PaymentMethod", paymentMethod.toString())
-
-                        GlobalScope.launch(Dispatchers.Main) {
+                        textViewResponse.text = paymentMethod.id.toString()
+                      /*  GlobalScope.launch(Dispatchers.Main) {
                             supportClass.displayLoader("Preparing you for payment.")
                             //Payment Intent is need to handle in Server side
                             val paymentIntentValue =
@@ -249,7 +251,7 @@ class PreBuiltUIActivity : AppCompatActivity() {
                             } catch (e: Exception) {
                                 e.printStackTrace()
                             }
-                        }
+                        }*/
                     }
                 }
                 50000 -> {
@@ -308,7 +310,7 @@ class PreBuiltUIActivity : AppCompatActivity() {
             paymentParams["currency"] = "usd"
             //Here I'm directly hardcoded the Stripe Customer key.
             //You can find the clear flow of creating the Customer in Server side code in https://stripe.com/docs/api/customers/create?lang=java
-            paymentParams["customer"] = "CUSTOMER_ID"
+            paymentParams["customer"] = customerId
             paymentParams["payment_method_types"] = paymentMethodTypes
 
             return@async PaymentIntent.create(paymentParams)

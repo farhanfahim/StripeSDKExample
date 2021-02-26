@@ -14,7 +14,9 @@ class MainActivity : AppCompatActivity() {
 
 
         buttonStripeCardPayment.setOnClickListener {
-            startActivity(Intent(this@MainActivity, PreBuiltUIActivity::class.java))
+            var intent = Intent(this@MainActivity, PreBuiltUIActivity::class.java)
+            intent.putExtra("customerId","YOUR_CUSTOMER_ID")
+            startActivity(intent)
             overridePendingTransition(R.anim.right_to_left, 0)
         }
     }
